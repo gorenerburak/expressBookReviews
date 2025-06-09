@@ -15,7 +15,8 @@ app.use("/customer/auth/*", function auth(req, res, next) {
         let token = req.session.authorization['accessToken'];
         jwt.verify(token, "access", (err, user) => {
             if (!err) {
-                req.user = user;
+                req.token = user;
+                req.user = req.session.authorization['username'];
                 next();
             } else {
                 return res.status(401).json({ message: "User token is not valid!" });
